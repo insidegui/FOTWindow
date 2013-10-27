@@ -1,0 +1,336 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DD830104181D74D30012369F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD830103181D74D30012369F /* Cocoa.framework */; };
+		DD83010E181D74D30012369F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DD83010C181D74D30012369F /* InfoPlist.strings */; };
+		DD830110181D74D30012369F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DD83010F181D74D30012369F /* main.m */; };
+		DD830114181D74D30012369F /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = DD830112181D74D30012369F /* Credits.rtf */; };
+		DD830117181D74D40012369F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DD830116181D74D40012369F /* AppDelegate.m */; };
+		DD83011A181D74D40012369F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD830118181D74D40012369F /* MainMenu.xib */; };
+		DD83011C181D74D40012369F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD83011B181D74D40012369F /* Images.xcassets */; };
+		DD830139181D74EA0012369F /* FOTWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = DD830138181D74EA0012369F /* FOTWindow.m */; };
+		DD83013B181D7D290012369F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD83013A181D7D290012369F /* QuartzCore.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		DD830100181D74D30012369F /* FadeOut Titlebar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FadeOut Titlebar.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD830103181D74D30012369F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		DD830106181D74D30012369F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		DD830107181D74D30012369F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		DD830108181D74D30012369F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		DD83010B181D74D30012369F /* FadeOut Titlebar-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FadeOut Titlebar-Info.plist"; sourceTree = "<group>"; };
+		DD83010D181D74D30012369F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DD83010F181D74D30012369F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		DD830111181D74D30012369F /* FadeOut Titlebar-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FadeOut Titlebar-Prefix.pch"; sourceTree = "<group>"; };
+		DD830113181D74D30012369F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		DD830115181D74D30012369F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		DD830116181D74D40012369F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		DD830119181D74D40012369F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		DD83011B181D74D40012369F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		DD830137181D74EA0012369F /* FOTWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FOTWindow.h; sourceTree = "<group>"; };
+		DD830138181D74EA0012369F /* FOTWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FOTWindow.m; sourceTree = "<group>"; };
+		DD83013A181D7D290012369F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DD8300FD181D74D30012369F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD83013B181D7D290012369F /* QuartzCore.framework in Frameworks */,
+				DD830104181D74D30012369F /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DD8300F7181D74D30012369F = {
+			isa = PBXGroup;
+			children = (
+				DD830109181D74D30012369F /* FadeOut Titlebar */,
+				DD830102181D74D30012369F /* Frameworks */,
+				DD830101181D74D30012369F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DD830101181D74D30012369F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DD830100181D74D30012369F /* FadeOut Titlebar.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DD830102181D74D30012369F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DD83013A181D7D290012369F /* QuartzCore.framework */,
+				DD830103181D74D30012369F /* Cocoa.framework */,
+				DD830105181D74D30012369F /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DD830105181D74D30012369F /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DD830106181D74D30012369F /* AppKit.framework */,
+				DD830107181D74D30012369F /* CoreData.framework */,
+				DD830108181D74D30012369F /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		DD830109181D74D30012369F /* FadeOut Titlebar */ = {
+			isa = PBXGroup;
+			children = (
+				DD830115181D74D30012369F /* AppDelegate.h */,
+				DD830116181D74D40012369F /* AppDelegate.m */,
+				DD830118181D74D40012369F /* MainMenu.xib */,
+				DD83011B181D74D40012369F /* Images.xcassets */,
+				DD83010A181D74D30012369F /* Supporting Files */,
+				DD830137181D74EA0012369F /* FOTWindow.h */,
+				DD830138181D74EA0012369F /* FOTWindow.m */,
+			);
+			path = "FadeOut Titlebar";
+			sourceTree = "<group>";
+		};
+		DD83010A181D74D30012369F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DD83010B181D74D30012369F /* FadeOut Titlebar-Info.plist */,
+				DD83010C181D74D30012369F /* InfoPlist.strings */,
+				DD83010F181D74D30012369F /* main.m */,
+				DD830111181D74D30012369F /* FadeOut Titlebar-Prefix.pch */,
+				DD830112181D74D30012369F /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DD8300FF181D74D30012369F /* FadeOut Titlebar */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DD830131181D74D40012369F /* Build configuration list for PBXNativeTarget "FadeOut Titlebar" */;
+			buildPhases = (
+				DD8300FC181D74D30012369F /* Sources */,
+				DD8300FD181D74D30012369F /* Frameworks */,
+				DD8300FE181D74D30012369F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "FadeOut Titlebar";
+			productName = "FadeOut Titlebar";
+			productReference = DD830100181D74D30012369F /* FadeOut Titlebar.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DD8300F8181D74D30012369F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Guilherme Rambo";
+			};
+			buildConfigurationList = DD8300FB181D74D30012369F /* Build configuration list for PBXProject "FadeOut Titlebar" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = DD8300F7181D74D30012369F;
+			productRefGroup = DD830101181D74D30012369F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DD8300FF181D74D30012369F /* FadeOut Titlebar */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DD8300FE181D74D30012369F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD83010E181D74D30012369F /* InfoPlist.strings in Resources */,
+				DD83011C181D74D40012369F /* Images.xcassets in Resources */,
+				DD830114181D74D30012369F /* Credits.rtf in Resources */,
+				DD83011A181D74D40012369F /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DD8300FC181D74D30012369F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DD830117181D74D40012369F /* AppDelegate.m in Sources */,
+				DD830110181D74D30012369F /* main.m in Sources */,
+				DD830139181D74EA0012369F /* FOTWindow.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		DD83010C181D74D30012369F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DD83010D181D74D30012369F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		DD830112181D74D30012369F /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DD830113181D74D30012369F /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		DD830118181D74D40012369F /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DD830119181D74D40012369F /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DD83012F181D74D40012369F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		DD830130181D74D40012369F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		DD830132181D74D40012369F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FadeOut Titlebar/FadeOut Titlebar-Prefix.pch";
+				INFOPLIST_FILE = "FadeOut Titlebar/FadeOut Titlebar-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		DD830133181D74D40012369F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FadeOut Titlebar/FadeOut Titlebar-Prefix.pch";
+				INFOPLIST_FILE = "FadeOut Titlebar/FadeOut Titlebar-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DD8300FB181D74D30012369F /* Build configuration list for PBXProject "FadeOut Titlebar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD83012F181D74D40012369F /* Debug */,
+				DD830130181D74D40012369F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DD830131181D74D40012369F /* Build configuration list for PBXNativeTarget "FadeOut Titlebar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DD830132181D74D40012369F /* Debug */,
+				DD830133181D74D40012369F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DD8300F8181D74D30012369F /* Project object */;
+}

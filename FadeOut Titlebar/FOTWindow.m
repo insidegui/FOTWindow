@@ -11,7 +11,6 @@
 @implementation FOTWindow
 {
     NSView *_originalThemeFrame;
-    FOTWindowFrame *_windowFrame;
 }
 
 - (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
@@ -22,15 +21,18 @@
         [self setMovableByWindowBackground:YES];
 
         _originalThemeFrame = [self.contentView superview];
-        _windowFrame = [[FOTWindowFrame alloc] initWithFrame:self.frame];
-        [_originalThemeFrame addSubview:_windowFrame positioned:NSWindowBelow relativeTo:_originalThemeFrame.subviews[0]];
+        _originalThemeFrame.wantsLayer = YES;
+        
+        self.fullContentView = [[FOTWindowFrame alloc] initWithFrame:self.frame];
+        self.fullContentView.wantsLayer = YES;
+        [_originalThemeFrame addSubview:self.fullContentView positioned:NSWindowBelow relativeTo:_originalThemeFrame.subviews[0]];
         
         [[self standardWindowButton:NSWindowCloseButton] setAlphaValue:0];
         [[self standardWindowButton:NSWindowZoomButton] setAlphaValue:0];
         [[self standardWindowButton:NSWindowMiniaturizeButton] setAlphaValue:0];
         
-        [_windowFrame setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-        [_windowFrame setFrame:_originalThemeFrame.frame];
+        [self.fullContentView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+        [self.fullContentView setFrame:_originalThemeFrame.frame];
     }
     
     return self;
@@ -39,7 +41,12 @@
 - (void)setTitle:(NSString *)aString
 {
     [super setTitle:aString];
-    [_windowFrame setNeedsDisplay:YES];
+    [self.fullContentView setNeedsDisplay:YES];
+}
+
+- (void)addSubviewBelowTitlebar:(NSView *)subview
+{
+    [self.fullContentView addSubview:subview positioned:NSWindowBelow relativeTo:self.fullContentView.subviews[0]];
 }
 
 - (void)makeKeyAndOrderFront:(id)sender
@@ -59,7 +66,7 @@
     for (NSView *view in _originalThemeFrame.subviews) {
         if ([view isKindOfClass:NSClassFromString(@"NSThemeDocumentButton")] || [view isKindOfClass:NSClassFromString(@"_NSThemeFullScreenButton")]) {
             [view setAlphaValue:0];
-            _windowFrame.isDocument = YES;
+            self.fullContentView.isDocument = YES;
         }
     }
 }
@@ -99,7 +106,7 @@
     [[[self.window standardWindowButton:NSWindowCloseButton] animator] setAlphaValue:1];
     [[[self.window standardWindowButton:NSWindowZoomButton] animator] setAlphaValue:1];
     [[[self.window standardWindowButton:NSWindowMiniaturizeButton] animator] setAlphaValue:1];
-    [[_titleBar animator] setAlphaValue:1];
+    [[_titleBar animator] setAlphaValue:0.9];
     
     for (NSView *view in self.superview.subviews) {
         if ([view isKindOfClass:NSClassFromString(@"NSThemeDocumentButton")] || [view isKindOfClass:NSClassFromString(@"_NSThemeFullScreenButton")]) {

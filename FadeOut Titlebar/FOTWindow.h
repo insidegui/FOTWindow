@@ -8,7 +8,15 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class FOTWindowFrame;
+
 @interface FOTWindow : NSWindow
+
+@property (nonatomic, strong) FOTWindowFrame *fullContentView;
+
+// adds a subview that stays below the titlebar
+// notice: all views in this window will get wantsLayer = YES
+- (void)addSubviewBelowTitlebar:(NSView *)subview;
 
 @end
 

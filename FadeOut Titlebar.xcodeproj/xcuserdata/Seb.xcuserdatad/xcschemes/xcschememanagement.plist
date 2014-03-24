@@ -4,7 +4,7 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>QTX Sample.xcscheme</key>
+		<key>FadeOut Titlebar.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
@@ -12,12 +12,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>F4970427181E81050042C825</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>F4970448181E81050042C825</key>
+		<key>DD8300FF181D74D30012369F</key>
 		<dict>
 			<key>primary</key>
 			<true/>

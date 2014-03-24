@@ -19,7 +19,10 @@
     
     if (self) {
         [self setMovableByWindowBackground:YES];
-
+        
+        _titlebarFadeInAlphaValue = 1.0;
+        _titlebarFadeOutAlphaValue = 0.0;
+        
         _originalThemeFrame = [self.contentView superview];
         _originalThemeFrame.wantsLayer = YES;
         
@@ -27,9 +30,9 @@
         self.fullContentView.wantsLayer = YES;
         [_originalThemeFrame addSubview:self.fullContentView positioned:NSWindowBelow relativeTo:_originalThemeFrame.subviews[0]];
         
-        [[self standardWindowButton:NSWindowCloseButton] setAlphaValue:0];
-        [[self standardWindowButton:NSWindowZoomButton] setAlphaValue:0];
-        [[self standardWindowButton:NSWindowMiniaturizeButton] setAlphaValue:0];
+        [[self standardWindowButton:NSWindowCloseButton] setAlphaValue:_titlebarFadeOutAlphaValue];
+        [[self standardWindowButton:NSWindowZoomButton] setAlphaValue:_titlebarFadeOutAlphaValue];
+        [[self standardWindowButton:NSWindowMiniaturizeButton] setAlphaValue:_titlebarFadeOutAlphaValue];
         
         [self.fullContentView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
         [self.fullContentView setFrame:_originalThemeFrame.frame];
@@ -38,15 +41,53 @@
     return self;
 }
 
+#pragma mark - NSWindow Overrides
+
+- (void)becomeKeyWindow
+{
+    [super becomeKeyWindow];
+    [[self titleBar] setNeedsDisplay:YES];
+}
+
+- (void)resignKeyWindow
+{
+    [super resignKeyWindow];
+    [[self titleBar] setNeedsDisplay:YES];
+}
+
+- (void)becomeMainWindow
+{
+    [super becomeMainWindow];
+    [[self titleBar] setNeedsDisplay:YES];
+}
+
+- (void)resignMainWindow
+{
+    [super resignMainWindow];
+    [[self titleBar] setNeedsDisplay:YES];
+}
+
 - (void)setTitle:(NSString *)aString
 {
     [super setTitle:aString];
+    
     [self.fullContentView setNeedsDisplay:YES];
+    
+    [[self titleBar] setNeedsDisplay:YES];
 }
 
 - (void)addSubviewBelowTitlebar:(NSView *)subview
 {
-    [self.fullContentView addSubview:subview positioned:NSWindowBelow relativeTo:self.fullContentView.subviews[0]];
+    [self.fullContentView addSubview:subview positioned:NSWindowBelow relativeTo:[self titleBar]];
+}
+
+- (FOTWindowTitle*)titleBar {
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wundeclared-selector"
+    FOTWindowTitle* titleBar = [self.fullContentView performSelector:@selector(titleBar)];
+    #pragma clang diagnostic pop
+    return titleBar;
+
 }
 
 - (void)makeKeyAndOrderFront:(id)sender
@@ -63,22 +104,24 @@
 
 - (void)hideDocumentButton
 {
-    for (NSView *view in _originalThemeFrame.subviews) {
-        if ([view isKindOfClass:NSClassFromString(@"NSThemeDocumentButton")] || [view isKindOfClass:NSClassFromString(@"_NSThemeFullScreenButton")]) {
-            [view setAlphaValue:0];
-            self.fullContentView.isDocument = YES;
-        }
-    }
+    [[self standardWindowButton:NSWindowDocumentIconButton] setAlphaValue:0];
+    [[self standardWindowButton:NSWindowFullScreenButton] setAlphaValue:0];
+    
+    self.fullContentView.isDocument = YES;
 }
 
 @end
 
+
 #define kTitleBarHeight 22.0
 
+@interface FOTWindowFrame ()
+
+@property (strong) FOTWindowTitle *titleBar;
+
+@end
+
 @implementation FOTWindowFrame
-{
-    FOTWindowTitle *_titleBar;
-}
 
 - (id)initWithFrame:(NSRect)frameRect
 {
@@ -103,42 +146,30 @@
 
 - (void)mouseEntered:(NSEvent *)theEvent
 {
-    [[[self.window standardWindowButton:NSWindowCloseButton] animator] setAlphaValue:1];
-    [[[self.window standardWindowButton:NSWindowZoomButton] animator] setAlphaValue:1];
-    [[[self.window standardWindowButton:NSWindowMiniaturizeButton] animator] setAlphaValue:1];
-    [[_titleBar animator] setAlphaValue:0.9];
-    
-    for (NSView *view in self.superview.subviews) {
-        if ([view isKindOfClass:NSClassFromString(@"NSThemeDocumentButton")] || [view isKindOfClass:NSClassFromString(@"_NSThemeFullScreenButton")]) {
-            [[view animator] setAlphaValue:1];
-        }
-    }
+    FOTWindow* window = (FOTWindow*)self.window;
+    [[self.window standardWindowButton:NSWindowCloseButton].animator setAlphaValue:window.titlebarFadeInAlphaValue];
+    [[self.window standardWindowButton:NSWindowZoomButton].animator setAlphaValue:window.titlebarFadeInAlphaValue];
+    [[self.window standardWindowButton:NSWindowMiniaturizeButton].animator setAlphaValue:window.titlebarFadeInAlphaValue];
+    [[self.window standardWindowButton:NSWindowDocumentIconButton].animator setAlphaValue:window.titlebarFadeInAlphaValue];
+    [[self.window standardWindowButton:NSWindowFullScreenButton].animator setAlphaValue:window.titlebarFadeInAlphaValue];
+    [_titleBar.animator setAlphaValue:window.titlebarFadeInAlphaValue];
 }
 
 - (void)mouseExited:(NSEvent *)theEvent
 {
-    [[[self.window standardWindowButton:NSWindowCloseButton] animator] setAlphaValue:0];
-    [[[self.window standardWindowButton:NSWindowZoomButton] animator] setAlphaValue:0];
-    [[[self.window standardWindowButton:NSWindowMiniaturizeButton] animator] setAlphaValue:0];
-    [[_titleBar animator] setAlphaValue:0];
-    
-    for (NSView *view in self.superview.subviews) {
-        if ([view isKindOfClass:NSClassFromString(@"NSThemeDocumentButton")] || [view isKindOfClass:NSClassFromString(@"_NSThemeFullScreenButton")]) {
-            [[view animator] setAlphaValue:0];
-        }
-    }
+    FOTWindow* window = (FOTWindow*)self.window;
+    [[self.window standardWindowButton:NSWindowCloseButton].animator setAlphaValue:window.titlebarFadeOutAlphaValue];
+    [[self.window standardWindowButton:NSWindowZoomButton].animator setAlphaValue:window.titlebarFadeOutAlphaValue];
+    [[self.window standardWindowButton:NSWindowMiniaturizeButton].animator setAlphaValue:window.titlebarFadeOutAlphaValue];
+    [[self.window standardWindowButton:NSWindowDocumentIconButton].animator setAlphaValue:window.titlebarFadeOutAlphaValue];
+    [[self.window standardWindowButton:NSWindowFullScreenButton].animator setAlphaValue:window.titlebarFadeOutAlphaValue];
+    [_titleBar.animator setAlphaValue:window.titlebarFadeOutAlphaValue];
 }
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-    [[NSColor clearColor] setFill];
-    NSRectFill(dirtyRect);
-    
-    NSBezierPath *framePath = [NSBezierPath bezierPathWithRoundedRect:self.frame xRadius:4 yRadius:4];
-    
-    [[NSColor blackColor] setFill];
-    [framePath addClip];
-    NSRectFill(self.frame);
+    [self.window.backgroundColor set];
+    NSRectFillUsingOperation(dirtyRect, NSCompositeCopy);
 }
 
 - (void)setIsDocument:(BOOL)isDocument
@@ -152,90 +183,74 @@
 
 @implementation FOTWindowTitle
 
-// draws the title bar background and window title
+// Draws the title bar background and window title
 - (void)drawRect:(NSRect)dirtyRect
 {
-    NSColor* fillColor = [NSColor colorWithCalibratedRed: 0.076 green: 0.073 blue: 0.076 alpha: 1];
-    NSColor* strokeColor = [NSColor colorWithCalibratedRed: 0.289 green: 0.289 blue: 0.289 alpha: 1];
-    NSColor* gradientColor = [NSColor colorWithCalibratedRed: 0.179 green: 0.179 blue: 0.179 alpha: 1];
-    NSColor* shadowColor2 = [NSColor colorWithCalibratedRed: 0.719 green: 0.714 blue: 0.719 alpha: 1];
-
-    NSGradient* gradient = [[NSGradient alloc] initWithColorsAndLocations:
-                            strokeColor, 0.0,
-                            gradientColor, 0.50,
-                            fillColor, 0.51, nil];
-
-    NSShadow* shadow = [[NSShadow alloc] init];
-    [shadow setShadowColor: shadowColor2];
-    [shadow setShadowOffset: NSMakeSize(0.1, -1.1)];
-    [shadow setShadowBlurRadius: 0];
-
+    FOTWindow* window = (FOTWindow*)self.window;
+    
     CGFloat roundedRectangleCornerRadius = 4;
     NSRect roundedRectangleRect = NSMakeRect(0, 0, NSWidth(self.frame), kTitleBarHeight);
     NSRect roundedRectangleInnerRect = NSInsetRect(roundedRectangleRect, roundedRectangleCornerRadius, roundedRectangleCornerRadius);
-    NSBezierPath* roundedRectanglePath = [NSBezierPath bezierPath];
-    [roundedRectanglePath moveToPoint: NSMakePoint(NSMinX(roundedRectangleRect), NSMinY(roundedRectangleRect))];
-    [roundedRectanglePath lineToPoint: NSMakePoint(NSMaxX(roundedRectangleRect), NSMinY(roundedRectangleRect))];
-    [roundedRectanglePath appendBezierPathWithArcWithCenter: NSMakePoint(NSMaxX(roundedRectangleInnerRect), NSMaxY(roundedRectangleInnerRect)) radius: roundedRectangleCornerRadius startAngle: 0 endAngle: 90];
-    [roundedRectanglePath appendBezierPathWithArcWithCenter: NSMakePoint(NSMinX(roundedRectangleInnerRect), NSMaxY(roundedRectangleInnerRect)) radius: roundedRectangleCornerRadius startAngle: 90 endAngle: 180];
-    [roundedRectanglePath closePath];
+    NSBezierPath* clippingPath = [NSBezierPath bezierPath];
+    [clippingPath moveToPoint: NSMakePoint(NSMinX(roundedRectangleRect), NSMinY(roundedRectangleRect))];
+    [clippingPath lineToPoint: NSMakePoint(NSMaxX(roundedRectangleRect), NSMinY(roundedRectangleRect))];
+    [clippingPath appendBezierPathWithArcWithCenter: NSMakePoint(NSMaxX(roundedRectangleInnerRect), NSMaxY(roundedRectangleInnerRect)) radius: roundedRectangleCornerRadius startAngle: 0 endAngle: 90];
+    [clippingPath appendBezierPathWithArcWithCenter: NSMakePoint(NSMinX(roundedRectangleInnerRect), NSMaxY(roundedRectangleInnerRect)) radius: roundedRectangleCornerRadius startAngle: 90 endAngle: 180];
+    [clippingPath closePath];
     
-    [gradient drawInBezierPath: roundedRectanglePath angle: -90];
-
-    NSRect rectangleBorderRect = NSInsetRect([roundedRectanglePath bounds], -shadow.shadowBlurRadius, -shadow.shadowBlurRadius);
-    rectangleBorderRect = NSOffsetRect(rectangleBorderRect, -shadow.shadowOffset.width, -shadow.shadowOffset.height);
-    rectangleBorderRect = NSInsetRect(NSUnionRect(rectangleBorderRect, [roundedRectanglePath bounds]), -1, -1);
+    BOOL drawsAsMainWindow = (window.isMainWindow && [NSApplication sharedApplication].isActive);
     
-    NSBezierPath* rectangleNegativePath = [NSBezierPath bezierPathWithRect: rectangleBorderRect];
-    [rectangleNegativePath appendBezierPath: roundedRectanglePath];
-    [rectangleNegativePath setWindingRule: NSEvenOddWindingRule];
-    
-    [NSGraphicsContext saveGraphicsState];
-    {
-        NSShadow* shadowWithOffset = [shadow copy];
-        CGFloat xOffset = shadowWithOffset.shadowOffset.width + round(rectangleBorderRect.size.width);
-        CGFloat yOffset = shadowWithOffset.shadowOffset.height;
-        shadowWithOffset.shadowOffset = NSMakeSize(xOffset + copysign(0.1, xOffset), yOffset + copysign(0.1, yOffset));
-        [shadowWithOffset set];
-        [[NSColor grayColor] setFill];
-        [roundedRectanglePath addClip];
-        NSAffineTransform* transform = [NSAffineTransform transform];
-        [transform translateXBy: -round(rectangleBorderRect.size.width) yBy: 0];
-        [[transform transformBezierPath: rectangleNegativePath] fill];
-    }
-    [NSGraphicsContext restoreGraphicsState];
-    
-    // TITLE TEXT
-
-    NSColor* fillColor2 = [NSColor colorWithCalibratedRed: 1 green: 1 blue: 1 alpha: 1];
-    NSColor* strokeColor2 = [NSColor colorWithCalibratedRed: 0 green: 0 blue: 0 alpha: 1];
-
-    NSShadow* shadow2 = [[NSShadow alloc] init];
-    [shadow2 setShadowColor: strokeColor2];
-    [shadow2 setShadowOffset: NSMakeSize(1.1, 1.1)];
-    [shadow2 setShadowBlurRadius: 0];
-
-    NSString* textContent = self.window.title;
-    
-    NSRect textRect;
-    if (self.isDocument) {
-        textRect = NSMakeRect(20, -2, NSWidth(self.frame)-20, NSHeight(self.frame));
+    if (window.titleBarDrawingBlock) {
+        NSRect drawingRect = NSMakeRect(0, 0, NSWidth(self.frame), kTitleBarHeight);
+        window.titleBarDrawingBlock(drawsAsMainWindow, drawingRect, clippingPath);
+        
     } else {
-        textRect = NSMakeRect(0, -2, NSWidth(self.frame), NSHeight(self.frame));
+        //Draw default titlebar background
+        NSGradient* gradient;
+        if (drawsAsMainWindow) {
+            gradient = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithDeviceWhite:0.66 alpha:1.0] endingColor:[NSColor colorWithDeviceWhite:0.9 alpha:1.0]];
+        } else {
+            gradient = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithDeviceWhite:0.878 alpha:1.0] endingColor:[NSColor colorWithDeviceWhite:0.976 alpha:1.0]];
+        }
+        
+        [gradient drawInBezierPath:clippingPath angle:90];
+        
+        //1px line
+        NSRect shadowRect = NSMakeRect(0, 0, NSWidth(self.frame), 1);
+        [(drawsAsMainWindow)? [NSColor colorWithDeviceWhite:0.408 alpha:1.0] : [NSColor colorWithDeviceWhite:0.655 alpha:1.0] set];
+        NSRectFill(shadowRect);
+        
+        
+        //Draw title
+        
+        //Rect
+        NSRect textRect;
+        if (self.isDocument) {
+            textRect = NSMakeRect(20, -2, NSWidth(self.frame)-20, NSHeight(self.frame));
+        } else {
+            textRect = NSMakeRect(0, -2, NSWidth(self.frame), NSHeight(self.frame));
+        }
+        
+        //Pragraph style
+        NSMutableParagraphStyle* textStyle = [NSMutableParagraphStyle defaultParagraphStyle].mutableCopy;
+        [textStyle setAlignment: NSCenterTextAlignment];
+        
+        //Shadow
+        NSShadow* titleTextShadow = [[NSShadow alloc] init];
+        titleTextShadow.shadowBlurRadius = 0.0;
+        titleTextShadow.shadowOffset = NSMakeSize(0, -1);
+        titleTextShadow.shadowColor = [NSColor colorWithDeviceWhite:1.0 alpha:0.5];
+        
+        NSColor *textColor = drawsAsMainWindow? [NSColor colorWithDeviceWhite:56.0/255.0 alpha:1.0] : [NSColor colorWithDeviceWhite:56.0/255.0 alpha:0.5];
+        
+        //Draw it
+        NSDictionary* textFontAttributes = @{NSFontAttributeName: [NSFont titleBarFontOfSize:[NSFont systemFontSizeForControlSize:NSRegularControlSize]],
+                                             NSForegroundColorAttributeName: textColor,
+                                             NSParagraphStyleAttributeName: textStyle,
+                                             NSShadowAttributeName: titleTextShadow};
+        
+        [self.window.title drawInRect: textRect withAttributes: textFontAttributes];
     }
-    
-    [NSGraphicsContext saveGraphicsState];
-    [shadow2 set];
-    NSMutableParagraphStyle* textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
-    [textStyle setAlignment: NSCenterTextAlignment];
-    
-    NSDictionary* textFontAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                        [NSFont boldSystemFontOfSize: [NSFont systemFontSize]], NSFontAttributeName,
-                                        fillColor2, NSForegroundColorAttributeName,
-                                        textStyle, NSParagraphStyleAttributeName, nil];
-    
-    [textContent drawInRect: textRect withAttributes: textFontAttributes];
-    [NSGraphicsContext restoreGraphicsState];
 }
 
 @end

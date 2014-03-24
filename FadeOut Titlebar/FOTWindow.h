@@ -10,24 +10,44 @@
 
 @class FOTWindowFrame;
 
+/* Window Titlebar */
+@interface FOTWindowTitle : NSView
+
+@property (nonatomic, assign) BOOL isDocument;
+
+@end
+
+/* NSWindow subclass to make auto hiding and showing (a la QuickTime X) a window's titlebar easier. */
 @interface FOTWindow : NSWindow
 
 @property (nonatomic, strong) FOTWindowFrame *fullContentView;
 
-// adds a subview that stays below the titlebar
-// notice: all views in this window will get wantsLayer = YES
+/**
+ Adds a subview that stays below the titlebar. Warning: all views in this window will get wantsLayer = YES.
+ */
 - (void)addSubviewBelowTitlebar:(NSView *)subview;
 
+/**
+ The alpha value the titlebar view will be set to when it fades in.
+ */
+@property CGFloat titlebarFadeInAlphaValue;
+/**
+ The alpha value the titlebar view will be set to when it fades out.
+ */
+@property CGFloat titlebarFadeOutAlphaValue;
+
+typedef void (^FOTWindowTitleBarDrawingBlock)(BOOL drawsAsMainWindow, NSRect drawingRect, NSBezierPath *clippingPath);
+/**
+ Specify custom titlebar drawing code, which is however responsible for drawing the window's title.
+ */
+@property (nonatomic, strong) FOTWindowTitleBarDrawingBlock titleBarDrawingBlock;
+
 @end
 
+/* Window Frame */
 @interface FOTWindowFrame : NSView
 
-@property (nonatomic,assign) BOOL isDocument;
+@property (nonatomic, assign) BOOL isDocument;
 
 @end
 
-@interface FOTWindowTitle : NSView
-
-@property (nonatomic,assign) BOOL isDocument;
-
-@end

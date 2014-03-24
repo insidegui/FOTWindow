@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0500"
+   LastUpgradeVersion = "0510"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F4970427181E81050042C825"
-               BuildableName = "QTX Sample.app"
-               BlueprintName = "QTX Sample"
-               ReferencedContainer = "container:QTX Sample.xcodeproj">
+               BlueprintIdentifier = "DD8300FF181D74D30012369F"
+               BuildableName = "FadeOut Titlebar.app"
+               BlueprintName = "FadeOut Titlebar"
+               ReferencedContainer = "container:FadeOut Titlebar.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -28,24 +28,14 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F4970448181E81050042C825"
-               BuildableName = "QTX SampleTests.xctest"
-               BlueprintName = "QTX SampleTests"
-               ReferencedContainer = "container:QTX Sample.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "F4970427181E81050042C825"
-            BuildableName = "QTX Sample.app"
-            BlueprintName = "QTX Sample"
-            ReferencedContainer = "container:QTX Sample.xcodeproj">
+            BlueprintIdentifier = "DD8300FF181D74D30012369F"
+            BuildableName = "FadeOut Titlebar.app"
+            BlueprintName = "FadeOut Titlebar"
+            ReferencedContainer = "container:FadeOut Titlebar.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -61,10 +51,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "F4970427181E81050042C825"
-            BuildableName = "QTX Sample.app"
-            BlueprintName = "QTX Sample"
-            ReferencedContainer = "container:QTX Sample.xcodeproj">
+            BlueprintIdentifier = "DD8300FF181D74D30012369F"
+            BuildableName = "FadeOut Titlebar.app"
+            BlueprintName = "FadeOut Titlebar"
+            ReferencedContainer = "container:FadeOut Titlebar.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -79,10 +69,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "F4970427181E81050042C825"
-            BuildableName = "QTX Sample.app"
-            BlueprintName = "QTX Sample"
-            ReferencedContainer = "container:QTX Sample.xcodeproj">
+            BlueprintIdentifier = "DD8300FF181D74D30012369F"
+            BuildableName = "FadeOut Titlebar.app"
+            BlueprintName = "FadeOut Titlebar"
+            ReferencedContainer = "container:FadeOut Titlebar.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

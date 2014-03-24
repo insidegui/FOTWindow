@@ -7,13 +7,18 @@
 //
 
 #import "AppDelegate.h"
+#import "FOTWindow.h"
 
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    // Insert code here to initialize your application
-    [_window setTitle:@"Blar"];
+    [_window setTitle:@"FadeOut Titlebar"];
+    
+    /*_window.titleBarDrawingBlock = ^(BOOL drawsAsMainWindow, NSRect drawingRect, NSBezierPath *clippingPath){
+        [[NSColor lightGrayColor] set];
+        [clippingPath fill];
+    };*/
 }
 
 @end

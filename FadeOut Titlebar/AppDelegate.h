@@ -8,8 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class FOTWindow;
+
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
-@property (assign) IBOutlet NSWindow *window;
+@property (assign) IBOutlet FOTWindow *window;
 
 @end

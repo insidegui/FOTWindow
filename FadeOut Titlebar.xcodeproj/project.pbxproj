@@ -7,18 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		96F86A7818E0E2F3006E55B2 /* FOTWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F86A7718E0E2F3006E55B2 /* FOTWindow.m */; };
 		DD830104181D74D30012369F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD830103181D74D30012369F /* Cocoa.framework */; };
 		DD83010E181D74D30012369F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DD83010C181D74D30012369F /* InfoPlist.strings */; };
 		DD830110181D74D30012369F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DD83010F181D74D30012369F /* main.m */; };
-		DD830114181D74D30012369F /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = DD830112181D74D30012369F /* Credits.rtf */; };
 		DD830117181D74D40012369F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DD830116181D74D40012369F /* AppDelegate.m */; };
 		DD83011A181D74D40012369F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD830118181D74D40012369F /* MainMenu.xib */; };
-		DD83011C181D74D40012369F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD83011B181D74D40012369F /* Images.xcassets */; };
-		DD830139181D74EA0012369F /* FOTWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = DD830138181D74EA0012369F /* FOTWindow.m */; };
 		DD83013B181D7D290012369F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD83013A181D7D290012369F /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		96F86A7618E0E2F3006E55B2 /* FOTWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FOTWindow.h; sourceTree = "<group>"; };
+		96F86A7718E0E2F3006E55B2 /* FOTWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FOTWindow.m; sourceTree = "<group>"; };
 		DD830100181D74D30012369F /* FadeOut Titlebar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FadeOut Titlebar.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD830103181D74D30012369F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		DD830106181D74D30012369F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -28,13 +28,9 @@
 		DD83010D181D74D30012369F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DD83010F181D74D30012369F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		DD830111181D74D30012369F /* FadeOut Titlebar-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FadeOut Titlebar-Prefix.pch"; sourceTree = "<group>"; };
-		DD830113181D74D30012369F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		DD830115181D74D30012369F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DD830116181D74D40012369F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		DD830119181D74D40012369F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		DD83011B181D74D40012369F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		DD830137181D74EA0012369F /* FOTWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FOTWindow.h; sourceTree = "<group>"; };
-		DD830138181D74EA0012369F /* FOTWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FOTWindow.m; sourceTree = "<group>"; };
 		DD83013A181D7D290012369F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -51,6 +47,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		96F86A7518E0E2F3006E55B2 /* FOTWindow */ = {
+			isa = PBXGroup;
+			children = (
+				96F86A7618E0E2F3006E55B2 /* FOTWindow.h */,
+				96F86A7718E0E2F3006E55B2 /* FOTWindow.m */,
+			);
+			path = FOTWindow;
+			sourceTree = SOURCE_ROOT;
+		};
 		DD8300F7181D74D30012369F = {
 			isa = PBXGroup;
 			children = (
@@ -91,13 +96,11 @@
 		DD830109181D74D30012369F /* FadeOut Titlebar */ = {
 			isa = PBXGroup;
 			children = (
+				96F86A7518E0E2F3006E55B2 /* FOTWindow */,
 				DD830115181D74D30012369F /* AppDelegate.h */,
 				DD830116181D74D40012369F /* AppDelegate.m */,
 				DD830118181D74D40012369F /* MainMenu.xib */,
-				DD83011B181D74D40012369F /* Images.xcassets */,
 				DD83010A181D74D30012369F /* Supporting Files */,
-				DD830137181D74EA0012369F /* FOTWindow.h */,
-				DD830138181D74EA0012369F /* FOTWindow.m */,
 			);
 			path = "FadeOut Titlebar";
 			sourceTree = "<group>";
@@ -109,7 +112,6 @@
 				DD83010C181D74D30012369F /* InfoPlist.strings */,
 				DD83010F181D74D30012369F /* main.m */,
 				DD830111181D74D30012369F /* FadeOut Titlebar-Prefix.pch */,
-				DD830112181D74D30012369F /* Credits.rtf */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -167,8 +169,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD83010E181D74D30012369F /* InfoPlist.strings in Resources */,
-				DD83011C181D74D40012369F /* Images.xcassets in Resources */,
-				DD830114181D74D30012369F /* Credits.rtf in Resources */,
 				DD83011A181D74D40012369F /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -182,7 +182,7 @@
 			files = (
 				DD830117181D74D40012369F /* AppDelegate.m in Sources */,
 				DD830110181D74D30012369F /* main.m in Sources */,
-				DD830139181D74EA0012369F /* FOTWindow.m in Sources */,
+				96F86A7818E0E2F3006E55B2 /* FOTWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,14 +195,6 @@
 				DD83010D181D74D30012369F /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		DD830112181D74D30012369F /* Credits.rtf */ = {
-			isa = PBXVariantGroup;
-			children = (
-				DD830113181D74D30012369F /* en */,
-			);
-			name = Credits.rtf;
 			sourceTree = "<group>";
 		};
 		DD830118181D74D40012369F /* MainMenu.xib */ = {
@@ -329,6 +321,7 @@
 				DD830133181D74D40012369F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

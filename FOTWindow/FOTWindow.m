@@ -76,20 +76,6 @@
     [[self titleBar] setNeedsDisplay:YES];
 }
 
-- (void)addSubviewBelowTitlebar:(NSView *)subview
-{
-    [self.fullContentView addSubview:subview positioned:NSWindowBelow relativeTo:[self titleBar]];
-}
-
-- (FOTWindowTitle*)titleBar {
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wundeclared-selector"
-    FOTWindowTitle* titleBar = [self.fullContentView performSelector:@selector(titleBar)];
-    #pragma clang diagnostic pop
-    return titleBar;
-
-}
-
 - (void)makeKeyAndOrderFront:(id)sender
 {
     [super makeKeyAndOrderFront:sender];
@@ -110,8 +96,21 @@
     self.fullContentView.isDocument = YES;
 }
 
+#pragma mark - Misc
+
+- (void)addSubviewBelowTitlebar:(NSView *)subview
+{
+    [self.fullContentView addSubview:subview positioned:NSWindowBelow relativeTo:[self titleBar]];
+}
+
+- (FOTWindowTitle*)titleBar
+{
+    return [self.fullContentView performSelector:@selector(titleBar)];
+}
+
 @end
 
+#pragma mark -
 
 #define kTitleBarHeight 22.0
 
@@ -180,6 +179,8 @@
 }
 
 @end
+
+#pragma mark -
 
 @implementation FOTWindowTitle
 

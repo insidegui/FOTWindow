@@ -15,12 +15,19 @@
 {
     // The same as a normal window
     [_window setTitle:@"FadeOut Titlebar"];
-    //[_window setRepresentedURL:[NSURL URLWithString:@"/Users/. . ."]];
+//    [_window setRepresentedURL:[NSURL URLWithString:@"~/Users/ . . ."]];
     
-    // Easy to customise the title bar
-    /*_window.titleBarDrawingBlock = ^(BOOL drawsAsMainWindow, NSRect drawingRect, NSBezierPath *clippingPath){
+    // Easy to customize the title bar
+    /*
+    _window.titleBarDrawingBlock = ^(BOOL drawsAsMainWindow, NSRect drawingRect, NSBezierPath *clippingPath){
         [[NSColor lightGrayColor] set];
         [clippingPath fill];
+    };*/
+    
+    // Easy to customize the title
+    /*
+    _window.titleDrawingBlock = ^(BOOL drawsAsMainWindow, NSRect titleBarRect){
+        // draw custom title here
     };*/
 }
 

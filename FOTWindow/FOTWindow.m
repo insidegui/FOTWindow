@@ -27,11 +27,11 @@
     [clippingPath closePath];
     
     BOOL drawsAsMainWindow = (window.isMainWindow && [NSApplication sharedApplication].isActive);
+    NSRect drawingRect = NSMakeRect(0, 0, NSWidth(self.frame), kTitleBarHeight);
     
     if (window.titleBarDrawingBlock) {
-        NSRect drawingRect = NSMakeRect(0, 0, NSWidth(self.frame), kTitleBarHeight);
+        // Draw custom titlebar background
         window.titleBarDrawingBlock(drawsAsMainWindow, drawingRect, clippingPath);
-        
     } else {
         // Draw default titlebar background
         NSGradient* gradient;
@@ -47,9 +47,13 @@
         NSRect shadowRect = NSMakeRect(0, 0, NSWidth(self.frame), 1);
         [(drawsAsMainWindow)? [NSColor colorWithDeviceWhite:0.408 alpha:1.0] : [NSColor colorWithDeviceWhite:0.655 alpha:1.0] set];
         NSRectFill(shadowRect);
-        
-        
-        // Draw title
+    }
+    
+    if (window.titleDrawingBlock) {
+        // Draw custom title
+        window.titleDrawingBlock(drawsAsMainWindow, drawingRect);
+    } else {
+        // Draw default title
         
         // Rect
         NSRect textRect;

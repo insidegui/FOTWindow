@@ -13,7 +13,6 @@
 		DD830110181D74D30012369F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DD83010F181D74D30012369F /* main.m */; };
 		DD830117181D74D40012369F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DD830116181D74D40012369F /* AppDelegate.m */; };
 		DD83011A181D74D40012369F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD830118181D74D40012369F /* MainMenu.xib */; };
-		DD83013B181D7D290012369F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD83013A181D7D290012369F /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,7 +30,6 @@
 		DD830115181D74D30012369F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DD830116181D74D40012369F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		DD830119181D74D40012369F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		DD83013A181D7D290012369F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,7 +37,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD83013B181D7D290012369F /* QuartzCore.framework in Frameworks */,
 				DD830104181D74D30012369F /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -76,7 +73,6 @@
 		DD830102181D74D30012369F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				DD83013A181D7D290012369F /* QuartzCore.framework */,
 				DD830103181D74D30012369F /* Cocoa.framework */,
 				DD830105181D74D30012369F /* Other Frameworks */,
 			);

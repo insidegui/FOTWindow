@@ -1,6 +1,5 @@
 //
 //  FOTWindow.m
-//  FadeOut Titlebar
 //
 //  Created by Guilherme Rambo on 27/10/13.
 //  Copyright (c) 2013 Guilherme Rambo. All rights reserved.
@@ -8,111 +7,83 @@
 
 #import "FOTWindow.h"
 
-@implementation FOTWindow
-{
-    NSView *_originalThemeFrame;
-}
+#define kTitleBarHeight 22.0
 
-- (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
+@implementation FOTWindowTitle
+
+// Draws the title bar background and window title
+- (void)drawRect:(NSRect)dirtyRect
 {
-    self = [super initWithContentRect:contentRect styleMask:NSTitledWindowMask|NSClosableWindowMask|NSResizableWindowMask|NSMiniaturizableWindowMask backing:bufferingType defer:NO];
+    FOTWindow* window = (FOTWindow*)self.window;
     
-    if (self) {
-        [self setMovableByWindowBackground:YES];
+    CGFloat roundedRectangleCornerRadius = 4;
+    NSRect roundedRectangleRect = NSMakeRect(0, 0, NSWidth(self.frame), kTitleBarHeight);
+    NSRect roundedRectangleInnerRect = NSInsetRect(roundedRectangleRect, roundedRectangleCornerRadius, roundedRectangleCornerRadius);
+    NSBezierPath* clippingPath = [NSBezierPath bezierPath];
+    [clippingPath moveToPoint: NSMakePoint(NSMinX(roundedRectangleRect), NSMinY(roundedRectangleRect))];
+    [clippingPath lineToPoint: NSMakePoint(NSMaxX(roundedRectangleRect), NSMinY(roundedRectangleRect))];
+    [clippingPath appendBezierPathWithArcWithCenter: NSMakePoint(NSMaxX(roundedRectangleInnerRect), NSMaxY(roundedRectangleInnerRect)) radius: roundedRectangleCornerRadius startAngle: 0 endAngle: 90];
+    [clippingPath appendBezierPathWithArcWithCenter: NSMakePoint(NSMinX(roundedRectangleInnerRect), NSMaxY(roundedRectangleInnerRect)) radius: roundedRectangleCornerRadius startAngle: 90 endAngle: 180];
+    [clippingPath closePath];
+    
+    BOOL drawsAsMainWindow = (window.isMainWindow && [NSApplication sharedApplication].isActive);
+    
+    if (window.titleBarDrawingBlock) {
+        NSRect drawingRect = NSMakeRect(0, 0, NSWidth(self.frame), kTitleBarHeight);
+        window.titleBarDrawingBlock(drawsAsMainWindow, drawingRect, clippingPath);
         
-        _titlebarFadeInAlphaValue = 1.0;
-        _titlebarFadeOutAlphaValue = 0.0;
+    } else {
+        // Draw default titlebar background
+        NSGradient* gradient;
+        if (drawsAsMainWindow) {
+            gradient = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithDeviceWhite:0.66 alpha:1.0] endingColor:[NSColor colorWithDeviceWhite:0.9 alpha:1.0]];
+        } else {
+            gradient = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithDeviceWhite:0.878 alpha:1.0] endingColor:[NSColor colorWithDeviceWhite:0.976 alpha:1.0]];
+        }
         
-        _originalThemeFrame = [self.contentView superview];
-        _originalThemeFrame.wantsLayer = YES;
+        [gradient drawInBezierPath:clippingPath angle:90];
         
-        self.fullContentView = [[FOTWindowFrame alloc] initWithFrame:self.frame];
-        self.fullContentView.wantsLayer = YES;
-        [_originalThemeFrame addSubview:self.fullContentView positioned:NSWindowBelow relativeTo:_originalThemeFrame.subviews[0]];
+        // 1px line
+        NSRect shadowRect = NSMakeRect(0, 0, NSWidth(self.frame), 1);
+        [(drawsAsMainWindow)? [NSColor colorWithDeviceWhite:0.408 alpha:1.0] : [NSColor colorWithDeviceWhite:0.655 alpha:1.0] set];
+        NSRectFill(shadowRect);
         
-        [[self standardWindowButton:NSWindowCloseButton] setAlphaValue:_titlebarFadeOutAlphaValue];
-        [[self standardWindowButton:NSWindowZoomButton] setAlphaValue:_titlebarFadeOutAlphaValue];
-        [[self standardWindowButton:NSWindowMiniaturizeButton] setAlphaValue:_titlebarFadeOutAlphaValue];
         
-        [self.fullContentView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-        [self.fullContentView setFrame:_originalThemeFrame.frame];
+        // Draw title
+        
+        // Rect
+        NSRect textRect;
+        if (self.window.representedURL) {
+            textRect = NSMakeRect(20, -2, NSWidth(self.frame)-20, NSHeight(self.frame));
+        } else {
+            textRect = NSMakeRect(0, -2, NSWidth(self.frame), NSHeight(self.frame));
+        }
+        
+        // Pragraph style
+        NSMutableParagraphStyle* textStyle = [NSMutableParagraphStyle defaultParagraphStyle].mutableCopy;
+        [textStyle setAlignment: NSCenterTextAlignment];
+        
+        // Shadow
+        NSShadow* titleTextShadow = [[NSShadow alloc] init];
+        titleTextShadow.shadowBlurRadius = 0.0;
+        titleTextShadow.shadowOffset = NSMakeSize(0, -1);
+        titleTextShadow.shadowColor = [NSColor colorWithDeviceWhite:1.0 alpha:0.5];
+        
+        NSColor *textColor = drawsAsMainWindow? [NSColor colorWithDeviceWhite:56.0/255.0 alpha:1.0] : [NSColor colorWithDeviceWhite:56.0/255.0 alpha:0.5];
+        
+        // Draw the title
+        NSDictionary* textFontAttributes = @{NSFontAttributeName: [NSFont titleBarFontOfSize:[NSFont systemFontSizeForControlSize:NSRegularControlSize]],
+                                             NSForegroundColorAttributeName: textColor,
+                                             NSParagraphStyleAttributeName: textStyle,
+                                             NSShadowAttributeName: titleTextShadow};
+        
+        [self.window.title drawInRect: textRect withAttributes: textFontAttributes];
     }
-    
-    return self;
-}
-
-#pragma mark - NSWindow Overrides
-
-- (void)becomeKeyWindow
-{
-    [super becomeKeyWindow];
-    [[self titleBar] setNeedsDisplay:YES];
-}
-
-- (void)resignKeyWindow
-{
-    [super resignKeyWindow];
-    [[self titleBar] setNeedsDisplay:YES];
-}
-
-- (void)becomeMainWindow
-{
-    [super becomeMainWindow];
-    [[self titleBar] setNeedsDisplay:YES];
-}
-
-- (void)resignMainWindow
-{
-    [super resignMainWindow];
-    [[self titleBar] setNeedsDisplay:YES];
-}
-
-- (void)setTitle:(NSString *)aString
-{
-    [super setTitle:aString];
-    
-    [self.fullContentView setNeedsDisplay:YES];
-    
-    [[self titleBar] setNeedsDisplay:YES];
-}
-
-- (void)makeKeyAndOrderFront:(id)sender
-{
-    [super makeKeyAndOrderFront:sender];
-    
-    [self hideDocumentButton];
-}
-
-- (void)awakeFromNib
-{
-    [self hideDocumentButton];
-}
-
-- (void)hideDocumentButton
-{
-    [[self standardWindowButton:NSWindowDocumentIconButton] setAlphaValue:0];
-    [[self standardWindowButton:NSWindowFullScreenButton] setAlphaValue:0];
-    
-    self.fullContentView.isDocument = YES;
-}
-
-#pragma mark - Misc
-
-- (void)addSubviewBelowTitlebar:(NSView *)subview
-{
-    [self.fullContentView addSubview:subview positioned:NSWindowBelow relativeTo:[self titleBar]];
-}
-
-- (FOTWindowTitle*)titleBar
-{
-    return [self.fullContentView performSelector:@selector(titleBar)];
 }
 
 @end
 
 #pragma mark -
-
-#define kTitleBarHeight 22.0
 
 @interface FOTWindowFrame ()
 
@@ -146,23 +117,25 @@
 - (void)mouseEntered:(NSEvent *)theEvent
 {
     FOTWindow* window = (FOTWindow*)self.window;
-    [[self.window standardWindowButton:NSWindowCloseButton].animator setAlphaValue:window.titlebarFadeInAlphaValue];
-    [[self.window standardWindowButton:NSWindowZoomButton].animator setAlphaValue:window.titlebarFadeInAlphaValue];
-    [[self.window standardWindowButton:NSWindowMiniaturizeButton].animator setAlphaValue:window.titlebarFadeInAlphaValue];
-    [[self.window standardWindowButton:NSWindowDocumentIconButton].animator setAlphaValue:window.titlebarFadeInAlphaValue];
-    [[self.window standardWindowButton:NSWindowFullScreenButton].animator setAlphaValue:window.titlebarFadeInAlphaValue];
-    [_titleBar.animator setAlphaValue:window.titlebarFadeInAlphaValue];
+    [[window standardWindowButton:NSWindowCloseButton].animator setAlphaValue:window.titleBarFadeInAlphaValue];
+    [[window standardWindowButton:NSWindowZoomButton].animator setAlphaValue:window.titleBarFadeInAlphaValue];
+    [[window standardWindowButton:NSWindowMiniaturizeButton].animator setAlphaValue:window.titleBarFadeInAlphaValue];
+    [[window standardWindowButton:NSWindowDocumentIconButton].animator setAlphaValue:window.titleBarFadeInAlphaValue];
+    [[window standardWindowButton:NSWindowFullScreenButton].animator setAlphaValue:window.titleBarFadeInAlphaValue];
+    [[window standardWindowButton:NSWindowDocumentIconButton] setAlphaValue:window.titleBarFadeInAlphaValue];
+    [_titleBar.animator setAlphaValue:window.titleBarFadeInAlphaValue];
 }
 
 - (void)mouseExited:(NSEvent *)theEvent
 {
     FOTWindow* window = (FOTWindow*)self.window;
-    [[self.window standardWindowButton:NSWindowCloseButton].animator setAlphaValue:window.titlebarFadeOutAlphaValue];
-    [[self.window standardWindowButton:NSWindowZoomButton].animator setAlphaValue:window.titlebarFadeOutAlphaValue];
-    [[self.window standardWindowButton:NSWindowMiniaturizeButton].animator setAlphaValue:window.titlebarFadeOutAlphaValue];
-    [[self.window standardWindowButton:NSWindowDocumentIconButton].animator setAlphaValue:window.titlebarFadeOutAlphaValue];
-    [[self.window standardWindowButton:NSWindowFullScreenButton].animator setAlphaValue:window.titlebarFadeOutAlphaValue];
-    [_titleBar.animator setAlphaValue:window.titlebarFadeOutAlphaValue];
+    [[window standardWindowButton:NSWindowCloseButton].animator setAlphaValue:window.titleBarFadeOutAlphaValue];
+    [[window standardWindowButton:NSWindowZoomButton].animator setAlphaValue:window.titleBarFadeOutAlphaValue];
+    [[window standardWindowButton:NSWindowMiniaturizeButton].animator setAlphaValue:window.titleBarFadeOutAlphaValue];
+    [[window standardWindowButton:NSWindowDocumentIconButton].animator setAlphaValue:window.titleBarFadeOutAlphaValue];
+    [[window standardWindowButton:NSWindowFullScreenButton].animator setAlphaValue:window.titleBarFadeOutAlphaValue];
+    [[window standardWindowButton:NSWindowDocumentIconButton] setAlphaValue:window.titleBarFadeOutAlphaValue];
+    [_titleBar.animator setAlphaValue:window.titleBarFadeOutAlphaValue];
 }
 
 - (void)drawRect:(NSRect)dirtyRect
@@ -171,87 +144,93 @@
     NSRectFillUsingOperation(dirtyRect, NSCompositeCopy);
 }
 
-- (void)setIsDocument:(BOOL)isDocument
-{
-    _isDocument = isDocument;
-    _titleBar.isDocument = isDocument;
-    [_titleBar setNeedsDisplay:YES];
-}
-
 @end
 
 #pragma mark -
 
-@implementation FOTWindowTitle
-
-// Draws the title bar background and window title
-- (void)drawRect:(NSRect)dirtyRect
+@implementation FOTWindow
 {
-    FOTWindow* window = (FOTWindow*)self.window;
+    NSView *_originalThemeFrame;
+}
+
+- (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
+{
+    self = [super initWithContentRect:contentRect styleMask:NSTitledWindowMask|NSClosableWindowMask|NSResizableWindowMask|NSMiniaturizableWindowMask backing:bufferingType defer:NO];
     
-    CGFloat roundedRectangleCornerRadius = 4;
-    NSRect roundedRectangleRect = NSMakeRect(0, 0, NSWidth(self.frame), kTitleBarHeight);
-    NSRect roundedRectangleInnerRect = NSInsetRect(roundedRectangleRect, roundedRectangleCornerRadius, roundedRectangleCornerRadius);
-    NSBezierPath* clippingPath = [NSBezierPath bezierPath];
-    [clippingPath moveToPoint: NSMakePoint(NSMinX(roundedRectangleRect), NSMinY(roundedRectangleRect))];
-    [clippingPath lineToPoint: NSMakePoint(NSMaxX(roundedRectangleRect), NSMinY(roundedRectangleRect))];
-    [clippingPath appendBezierPathWithArcWithCenter: NSMakePoint(NSMaxX(roundedRectangleInnerRect), NSMaxY(roundedRectangleInnerRect)) radius: roundedRectangleCornerRadius startAngle: 0 endAngle: 90];
-    [clippingPath appendBezierPathWithArcWithCenter: NSMakePoint(NSMinX(roundedRectangleInnerRect), NSMaxY(roundedRectangleInnerRect)) radius: roundedRectangleCornerRadius startAngle: 90 endAngle: 180];
-    [clippingPath closePath];
-    
-    BOOL drawsAsMainWindow = (window.isMainWindow && [NSApplication sharedApplication].isActive);
-    
-    if (window.titleBarDrawingBlock) {
-        NSRect drawingRect = NSMakeRect(0, 0, NSWidth(self.frame), kTitleBarHeight);
-        window.titleBarDrawingBlock(drawsAsMainWindow, drawingRect, clippingPath);
+    if (self) {
+        [self setMovableByWindowBackground:YES];
         
-    } else {
-        //Draw default titlebar background
-        NSGradient* gradient;
-        if (drawsAsMainWindow) {
-            gradient = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithDeviceWhite:0.66 alpha:1.0] endingColor:[NSColor colorWithDeviceWhite:0.9 alpha:1.0]];
-        } else {
-            gradient = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithDeviceWhite:0.878 alpha:1.0] endingColor:[NSColor colorWithDeviceWhite:0.976 alpha:1.0]];
-        }
+        _titleBarFadeInAlphaValue = 1.0;
+        _titleBarFadeOutAlphaValue = 0.0;
         
-        [gradient drawInBezierPath:clippingPath angle:90];
+        _originalThemeFrame = [self.contentView superview];
+        _originalThemeFrame.wantsLayer = YES;
         
-        //1px line
-        NSRect shadowRect = NSMakeRect(0, 0, NSWidth(self.frame), 1);
-        [(drawsAsMainWindow)? [NSColor colorWithDeviceWhite:0.408 alpha:1.0] : [NSColor colorWithDeviceWhite:0.655 alpha:1.0] set];
-        NSRectFill(shadowRect);
+        _fullContentView = [[FOTWindowFrame alloc] initWithFrame:self.frame];
+        _fullContentView.wantsLayer = YES;
+        [_originalThemeFrame addSubview:_fullContentView positioned:NSWindowBelow relativeTo:_originalThemeFrame.subviews[0]];
         
+        [[self standardWindowButton:NSWindowCloseButton] setAlphaValue:_titleBarFadeOutAlphaValue];
+        [[self standardWindowButton:NSWindowZoomButton] setAlphaValue:_titleBarFadeOutAlphaValue];
+        [[self standardWindowButton:NSWindowMiniaturizeButton] setAlphaValue:_titleBarFadeOutAlphaValue];
         
-        //Draw title
-        
-        //Rect
-        NSRect textRect;
-        if (self.isDocument) {
-            textRect = NSMakeRect(20, -2, NSWidth(self.frame)-20, NSHeight(self.frame));
-        } else {
-            textRect = NSMakeRect(0, -2, NSWidth(self.frame), NSHeight(self.frame));
-        }
-        
-        //Pragraph style
-        NSMutableParagraphStyle* textStyle = [NSMutableParagraphStyle defaultParagraphStyle].mutableCopy;
-        [textStyle setAlignment: NSCenterTextAlignment];
-        
-        //Shadow
-        NSShadow* titleTextShadow = [[NSShadow alloc] init];
-        titleTextShadow.shadowBlurRadius = 0.0;
-        titleTextShadow.shadowOffset = NSMakeSize(0, -1);
-        titleTextShadow.shadowColor = [NSColor colorWithDeviceWhite:1.0 alpha:0.5];
-        
-        NSColor *textColor = drawsAsMainWindow? [NSColor colorWithDeviceWhite:56.0/255.0 alpha:1.0] : [NSColor colorWithDeviceWhite:56.0/255.0 alpha:0.5];
-        
-        //Draw it
-        NSDictionary* textFontAttributes = @{NSFontAttributeName: [NSFont titleBarFontOfSize:[NSFont systemFontSizeForControlSize:NSRegularControlSize]],
-                                             NSForegroundColorAttributeName: textColor,
-                                             NSParagraphStyleAttributeName: textStyle,
-                                             NSShadowAttributeName: titleTextShadow};
-        
-        [self.window.title drawInRect: textRect withAttributes: textFontAttributes];
+        [_fullContentView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+        [_fullContentView setFrame:_originalThemeFrame.frame];
     }
+    
+    return self;
+}
+
+- (void)awakeFromNib
+{
+    [[self standardWindowButton:NSWindowFullScreenButton] setAlphaValue:_titleBarFadeOutAlphaValue];
+}
+
+- (void)becomeKeyWindow
+{
+    [super becomeKeyWindow];
+    [_fullContentView.titleBar setNeedsDisplay:YES];
+}
+
+- (void)resignKeyWindow
+{
+    [super resignKeyWindow];
+    [_fullContentView.titleBar setNeedsDisplay:YES];
+}
+
+- (void)becomeMainWindow
+{
+    [super becomeMainWindow];
+    [_fullContentView.titleBar setNeedsDisplay:YES];
+}
+
+- (void)resignMainWindow
+{
+    [super resignMainWindow];
+    [_fullContentView.titleBar setNeedsDisplay:YES];
+}
+
+- (void)setTitle:(NSString *)aString
+{
+    [super setTitle:aString];
+    
+    [self.fullContentView setNeedsDisplay:YES];
+    [_fullContentView.titleBar setNeedsDisplay:YES];
+}
+
+- (void)setRepresentedURL:(NSURL *)url
+{
+    [super setRepresentedURL:url];
+    
+    //Match the document icon button to the alpha value of the close button (and the other buttons, essentially)
+    [[self standardWindowButton:NSWindowDocumentIconButton] setAlphaValue:[self standardWindowButton:NSWindowCloseButton].alphaValue];
+    
+    [_fullContentView.titleBar setNeedsDisplay:YES];
+}
+
+- (void)addSubviewBelowTitleBar:(NSView *)subview
+{
+    [_fullContentView addSubview:subview positioned:NSWindowBelow relativeTo:_fullContentView.titleBar];
 }
 
 @end

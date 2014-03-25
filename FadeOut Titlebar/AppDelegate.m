@@ -13,9 +13,11 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    // The same as a normal window
     [_window setTitle:@"FadeOut Titlebar"];
-    [_window setRepresentedURL:[NSURL URLWithString:@"/Users/Seb/Desktop/Thumbnails.app"]];
+    //[_window setRepresentedURL:[NSURL URLWithString:@"/Users/. . ."]];
     
+    // Easy to customise the title bar
     /*_window.titleBarDrawingBlock = ^(BOOL drawsAsMainWindow, NSRect drawingRect, NSBezierPath *clippingPath){
         [[NSColor lightGrayColor] set];
         [clippingPath fill];

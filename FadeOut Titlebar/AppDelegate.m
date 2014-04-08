@@ -24,7 +24,7 @@
         [clippingPath fill];
     };*/
     
-    // Easy to customize the title
+    // Easy to customize the title text
     /*
     _window.titleDrawingBlock = ^(BOOL drawsAsMainWindow, NSRect titleBarRect){
         // draw custom title here

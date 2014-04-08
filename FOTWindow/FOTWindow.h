@@ -17,7 +17,7 @@
 @end
 
 /**
- View acting as the window's frame and mouse tracking.
+ View acting as the window's frame and responsible for mouse tracking.
  */
 @interface FOTWindowFrame : NSView
 
@@ -31,7 +31,9 @@
 @property (nonatomic, strong) FOTWindowFrame *fullContentView;
 
 /**
- Adds a subview that stays below the title bar. Warning: all views in this window will get wantsLayer = YES.
+ Adds a subview that stays below the title bar.
+
+ @warning All views in this window will get wantsLayer = YES.
  */
 - (void)addSubviewBelowTitleBar:(NSView *)subview;
 
@@ -66,7 +68,7 @@ typedef void (^FOTWindowTitleBarDrawingBlock)(BOOL drawsAsMainWindow, NSRect dra
 typedef void (^FOTWindowTitleDrawingBlock)(BOOL drawsAsMainWindow, NSRect titleBarRect);
 
 /**
- Specify custom title text drawing code. If none is specified, the standard OS X title will be drawn.
+ Specify custom title text drawing code. If none is specified, the standard OS X-style window title will be drawn.
  */
 @property (nonatomic, strong) FOTWindowTitleDrawingBlock titleDrawingBlock;
 

@@ -45,7 +45,7 @@
         
         // 1px line
         NSRect shadowRect = NSMakeRect(0, 0, NSWidth(self.frame), 1);
-        [(drawsAsMainWindow)? [NSColor colorWithDeviceWhite:0.408 alpha:1.0] : [NSColor colorWithDeviceWhite:0.655 alpha:1.0] set];
+        [[NSColor colorWithDeviceWhite:(drawsAsMainWindow)? 0.408 : 0.655 alpha:1.0] set];
         NSRectFill(shadowRect);
     }
     
@@ -57,13 +57,13 @@
         
         // Rect
         NSRect textRect;
-        if (self.window.representedURL) {
+        if (window.representedURL) {
             textRect = NSMakeRect(20, -2, NSWidth(self.frame)-20, NSHeight(self.frame));
         } else {
             textRect = NSMakeRect(0, -2, NSWidth(self.frame), NSHeight(self.frame));
         }
         
-        // Pragraph style
+        // Paragraph style
         NSMutableParagraphStyle* textStyle = [NSMutableParagraphStyle defaultParagraphStyle].mutableCopy;
         [textStyle setAlignment: NSCenterTextAlignment];
         
@@ -73,7 +73,7 @@
         titleTextShadow.shadowOffset = NSMakeSize(0, -1);
         titleTextShadow.shadowColor = [NSColor colorWithDeviceWhite:1.0 alpha:0.5];
         
-        NSColor *textColor = drawsAsMainWindow? [NSColor colorWithDeviceWhite:56.0/255.0 alpha:1.0] : [NSColor colorWithDeviceWhite:56.0/255.0 alpha:0.5];
+        NSColor *textColor = [NSColor colorWithDeviceWhite:56.0/255.0 alpha:drawsAsMainWindow? 1.0 : 0.5];
         
         // Draw the title
         NSDictionary* textFontAttributes = @{NSFontAttributeName: [NSFont titleBarFontOfSize:[NSFont systemFontSizeForControlSize:NSRegularControlSize]],
@@ -81,7 +81,7 @@
                                              NSParagraphStyleAttributeName: textStyle,
                                              NSShadowAttributeName: titleTextShadow};
         
-        [self.window.title drawInRect: textRect withAttributes: textFontAttributes];
+        [window.title drawInRect: textRect withAttributes: textFontAttributes];
     }
 }
 
@@ -159,11 +159,9 @@
 
 - (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag
 {
-    self = [super initWithContentRect:contentRect styleMask:NSTitledWindowMask|NSClosableWindowMask|NSResizableWindowMask|NSMiniaturizableWindowMask backing:bufferingType defer:NO];
+    self = [super initWithContentRect:contentRect styleMask:aStyle backing:bufferingType defer:NO];
     
     if (self) {
-        [self setMovableByWindowBackground:YES];
-        
         _titleBarFadeInAlphaValue = 1.0;
         _titleBarFadeOutAlphaValue = 0.0;
         
